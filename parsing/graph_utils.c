@@ -1,6 +1,6 @@
 #include "graph.h"
 
-static int id_noeud = 0;
+int id_noeud = 0;
 
 t_graphe_noeud *gnoeud_new(char *name, int x, int y)
 {
@@ -37,7 +37,6 @@ void gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second)
             i++;
         second->links[i] = first;
         first->links[++i] = NULL;
-        return (0);
     }
 }
 
@@ -58,6 +57,7 @@ t_graphe_racine * gracine_new(void)
         ft_bzero(new, sizeof(t_graphe_racine));
         new->size = 0;
     }
+    return new;
 }
 
 void gracine_add_noeud(t_graphe_racine *dest, t_graphe_noeud *add)
@@ -81,6 +81,7 @@ void gracine_del(t_graphe_racine *target)
 
 void gracine_clear(t_graphe_racine *target)
 {
+    ft_printf("target %x\n", target);
     for (int i = 0; i < target->size; i++)
         gnoeud_del(target->all[i]);
     gracine_del(target);

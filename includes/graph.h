@@ -13,10 +13,12 @@
 #ifndef GRAPH_H
 # define GRAPH_H
 
-#include "libft.h"
+#include "./libft/libft.h"
 #define PECULIAR_NO 0
 #define PECULIAR_END 1
 #define PECULIAR_START 2
+
+extern int id_noeud;
 
 typedef struct graphe_noeud{
     int id;
