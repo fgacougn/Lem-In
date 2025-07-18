@@ -13,6 +13,8 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
+#include "graph.h"
+#include "algo.h.h"
 #include "libft.h"
 
 #endif
