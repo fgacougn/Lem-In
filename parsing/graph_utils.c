@@ -1,0 +1,120 @@
+#include "graph.h"
+
+int id_noeud = 0;
+
+t_graphe_noeud *gnoeud_new(char *name, int x, int y)
+{
+    t_graphe_noeud *new;
+
+    new = malloc(sizeof(t_graphe_noeud));
+    if (new)
+    {
+        ft_bzero(new,sizeof(t_graphe_noeud));
+        new->name = ft_strdup( name);
+        if(!new->name){
+            free(new);
+            return 0;
+        }
+        new->id = id_noeud++;
+        new->is_peculiar = PECULIAR_NO;
+        new->x = x;
+        new->y = y;
+        new->seen = 0;
+        new->has_a_way = 0;
+    }
+    return(new);
+}
+
+void gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second)
+{
+    if (first && second)
+    {
+        first->links[second->id] = second;
+        second->links[first->id] = first;
+        // int i;
+
+        // i = 0;
+        // while (first->links[i])
+        //     i++;
+        // first->links[i] = second;
+        // first->links[++i] = NULL;
+        // i = 0;
+        // while (second->links[i])
+        //     i++;
+        // second->links[i] = first;
+        // first->links[++i] = NULL;
+    }
+}
+
+
+void gnoeud_del(t_graphe_noeud *del)
+{
+    if(!del)
+        return;
+    if(del->name)
+        free(del->name);
+    free(del->links);
+    free(del);
+}
+
+void gnoeud_print(t_graphe_noeud *toprint)
+{
+    if(toprint)
+    ft_printf("id=%d\n,name=/%s/\nlinks=%d\n,is_peculiar=%d,\nx=%d,\ny=%d\n,seen=%d\n,has_a_way=%d\n",
+toprint->id,toprint->name,toprint->links,toprint->is_peculiar,toprint->x,toprint->y,toprint->seen,toprint->has_a_way);
+}
+
+t_graphe_racine * gracine_new(void)
+{
+    t_graphe_racine *new;
+
+    new = malloc(sizeof(t_graphe_racine));
+    if (new)
+    {
+        ft_bzero(new, sizeof(t_graphe_racine));
+        new->size = 0;
+    }
+    return new;
+}
+
+void gracine_add_noeud(t_graphe_racine *dest, t_graphe_noeud *add)
+{
+    if (dest && add)
+    {
+        int i;
+
+        i = 0;
+        while (dest->all[i])
+            i++;
+        dest->all[i] = add;
+        dest->all[++i] = NULL;
+    }
+}
+
+void gracine_del(t_graphe_racine *target)
+{
+    free(target->all);
+}
+
+void gracine_clear(t_graphe_racine *target)
+{
+    ft_printf("target %x\n", target);
+    if(target->all)
+        for (int i = 0; i < target->size; i++)
+            gnoeud_del(target->all[i]);
+    gracine_del(target);
+    free(target);
+}
+
+
+t_graphe_noeud *find_gnoued(t_list *lst, char *name)
+{
+    if(lst && name) 
+    {
+        t_graphe_noeud * noeud = (t_graphe_noeud *)lst->content;
+        if( !ft_strcmp( noeud->name,name))
+            return (noeud);
+        return find_gnoued(lst->next,name);
+    }
+    return (NULL);
+}

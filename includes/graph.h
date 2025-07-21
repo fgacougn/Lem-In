@@ -13,12 +13,13 @@
 #ifndef GRAPH_H
 # define GRAPH_H
 
-#include "libft.h"
+#include "./libft/libft.h"
 #define PECULIAR_NO 0
 #define PECULIAR_END 1
 #define PECULIAR_START 2
 
 struct way;
+extern int id_noeud;
 
 typedef struct graphe_noeud{
     int id;
@@ -32,8 +33,12 @@ typedef struct graphe_noeud{
     struct way *first;
 } t_graphe_noeud;
 
-t_graphe_noeud * gnoeud_new();
-void gnoeud_del();
+t_graphe_noeud * gnoeud_new(char *name, int x, int y);
+void gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second);
+void gnoeud_del(t_graphe_noeud *del);
+t_graphe_noeud *find_gnoued(t_list *lst, char *name);
+void gnoeud_print(t_graphe_noeud *);
+
 
 typedef struct graphe_racine{
     int size;
@@ -43,11 +48,11 @@ typedef struct graphe_racine{
     struct way **start_ways;
 } t_graphe_racine;
 
-t_graphe_racine * gracine_new();
-void gracine_add_noeud(t_graphe_noeud*);
-void gracine_add_link(char *, char*);
-void gracine_del();
-void gracine_clear();
+t_graphe_racine * gracine_new(void);
+void gracine_add_noeud(t_graphe_racine *dest, t_graphe_noeud *add);
+void gracine_del(t_graphe_racine *target);
+void gracine_clear(t_graphe_racine *target);
+t_graphe_racine *parsing();
 
 
 typedef struct way{
