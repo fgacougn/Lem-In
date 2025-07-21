@@ -18,6 +18,7 @@
 #define PECULIAR_END 1
 #define PECULIAR_START 2
 
+struct way;
 extern int id_noeud;
 
 typedef struct graphe_noeud{
@@ -29,6 +30,7 @@ typedef struct graphe_noeud{
     int y;
     char seen;
     char has_a_way;
+    struct way *first;
 } t_graphe_noeud;
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
@@ -43,6 +45,7 @@ typedef struct graphe_racine{
     t_graphe_noeud *start;
     t_graphe_noeud **all;
     t_graphe_noeud *end;
+    struct way **start_ways;
 } t_graphe_racine;
 
 t_graphe_racine * gracine_new(void);
@@ -53,10 +56,14 @@ t_graphe_racine *parsing();
 
 
 typedef struct way{
+    int size;
     t_graphe_noeud ** the_way;
 } t_way;
 
-t_way * way_new();
-void way_del();
+t_way * way_new(int size);
+void way_del(t_way *);
+void ways_del(t_way**, int size );
+t_way *way_cpy(t_way *);
+void way_add(t_way *start, t_way *end);
 
 #endif
