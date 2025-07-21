@@ -2,7 +2,7 @@
 # define ALGO_H
 
 #include "graph.h"
-#define SARTFROM_END PECULIAR_END
+#define STARTFROM_END PECULIAR_END
 #define STARTFROM_START PECULIAR_START
 
 char parcours_graphe(t_graphe_racine *);

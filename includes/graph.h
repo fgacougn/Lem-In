@@ -52,6 +52,7 @@ t_graphe_racine * gracine_new(void);
 void gracine_add_noeud(t_graphe_racine *dest, t_graphe_noeud *add);
 void gracine_del(t_graphe_racine *target);
 void gracine_clear(t_graphe_racine *target);
+void gracine_print(t_graphe_racine *);
 t_graphe_racine *parsing();
 
 
@@ -65,5 +66,6 @@ void way_del(t_way *);
 void ways_del(t_way**, int size );
 t_way *way_cpy(t_way *);
 void way_add(t_way *start, t_way *end);
+void way_print(t_way *);
 
 #endif
