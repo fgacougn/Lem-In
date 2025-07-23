@@ -34,7 +34,7 @@ typedef struct graphe_noeud{
 } t_graphe_noeud;
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
-void gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second);
+int gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second);
 void gnoeud_del(t_graphe_noeud *del);
 t_graphe_noeud *find_gnoued(t_list *lst, char *name);
 void gnoeud_print(t_graphe_noeud *);

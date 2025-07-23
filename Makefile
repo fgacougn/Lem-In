@@ -2,7 +2,7 @@ NAME=lem-in
 
 $(NAME) :
 	make -C ./includes/libft
-	cc -Wall -Werror -Wextra -g3 *.c */*.c */*/*.c -L./includes -lft -I./includes
+	cc -Wall -Werror -Wextra -lSDL2 -lm -g3 *.c */*.c */*/*.c -L./includes -lft -I./includes
 
 ../includes/exec.h :
 	 make -C exec
