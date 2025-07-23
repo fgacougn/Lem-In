@@ -150,14 +150,3 @@ void gracine_print(t_graphe_racine *target)
         i++;
     }
 }
-
-void way_print(t_way *target)
-{
-    int i = 0;
-    while(target->the_way[i])
-    {
-        ft_printf("->%s", target->the_way[i]->name);
-        i++;
-    }
-    ft_printf("\n");
-}
