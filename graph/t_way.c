@@ -88,3 +88,14 @@ int way_len(t_way *target)
         i++;
     return i;
 }
+
+void path_clear(t_way *target)
+{
+    int i = 1;
+    while(target->the_way[i])
+    {
+        target->the_way[i]->has_a_way = FALSE;
+        i++;
+    }
+    way_del(target);
+}

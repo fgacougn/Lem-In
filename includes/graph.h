@@ -43,6 +43,7 @@ void gnoeud_print(t_graphe_noeud *);
 
 typedef struct graphe_racine{
     int size;
+    int ants;
     t_graphe_noeud *start;
     t_graphe_noeud **all;
     t_graphe_noeud *end;
@@ -69,5 +70,6 @@ t_way *way_cpy(t_way *);
 void way_add(t_way *start, t_way *end);
 void way_print(t_way *);
 int way_len(t_way *);
+void path_clear(t_way *);
 
 #endif

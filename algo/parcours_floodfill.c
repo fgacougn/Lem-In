@@ -30,7 +30,7 @@ char build_way(t_graphe_racine *terre, t_way * way)
         }
     }
     while(next && next != terre->end);
-    if(i > 1)
+    if(next == terre->end)
         return SUCCESS;
     return FAILURE;
 
@@ -57,7 +57,7 @@ char parcours_floodfill(t_graphe_racine *terre)
         if(build_way(terre, new) == SUCCESS)
             terre->start_ways[i] = new;
         else
-            way_del(new);
+            path_clear(new);
     }while (terre->start_ways[i]);
     if(terre->start_ways[0])
         return SUCCESS;
