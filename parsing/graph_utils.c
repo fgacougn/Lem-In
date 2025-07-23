@@ -101,7 +101,7 @@ void gracine_del(t_graphe_racine *target)
 
 void gracine_clear(t_graphe_racine *target)
 {
-    ft_printf("target %x\n", target);
+    // ft_printf("target %x\n", target);
     if(target->all)
         for (int i = 0; i < target->size; i++)
             gnoeud_del(target->all[i]);
