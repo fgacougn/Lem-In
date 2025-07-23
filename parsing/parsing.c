@@ -71,6 +71,8 @@ t_graphe_racine *parsing()
     line = get_next_line(0);
     while (line && !breakpoint && ft_strlen(line))
     {
+        if(line[ft_strlen(line) - 1] == '\n')
+            line[ft_strlen(line) - 1] = 0;
         is_peculiar = 0;
         if(ft_str_startwith(line,"##") == SUCCESS)
         {
@@ -111,6 +113,7 @@ t_graphe_racine *parsing()
         racine->size = id_noeud;
         gracine_clear(racine);
         ft_lstclear(&room,(void (*)(void *))gnoeud_del);
+        ft_printf("Error: Pas de end ou de start\n");
         return (NULL);
     }
     racine->size = ft_lstsize(room);
@@ -171,7 +174,7 @@ void fill_racine(t_graphe_racine *racine, t_list * liste)
 
 int get_end_start(char **line, t_graphe_racine *rac, char * is_peculiar)
 {
-    if (!ft_strcmp(*line, "##start\n"))
+    if (!ft_strcmp(*line, "##start"))
     {
         if(rac->start)
         {
@@ -181,7 +184,7 @@ int get_end_start(char **line, t_graphe_racine *rac, char * is_peculiar)
         *is_peculiar = PECULIAR_START;
         return SUCCESS;     
     }
-    else if(!ft_strcmp(*line ,"##end\n"))
+    else if(!ft_strcmp(*line ,"##end"))
     {
         if(rac->end)
         {
@@ -191,7 +194,7 @@ int get_end_start(char **line, t_graphe_racine *rac, char * is_peculiar)
         *is_peculiar = PECULIAR_END;
         return SUCCESS;
     }
-    return (ERR_BAD_ARGS);
+    return (SUCCESS);
 }
 
 int get_room(char *line, char is_peculiar, t_graphe_racine *rac, t_list **liste)
