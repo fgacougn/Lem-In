@@ -14,8 +14,7 @@
 # define LEM_IN_H
 
 #include "graph.h"
-#include "algo.h.h"
-#include "libft.h"
+#include "algo.h"
 
 t_graphe_racine *parsing();
 

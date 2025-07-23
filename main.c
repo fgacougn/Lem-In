@@ -3,7 +3,10 @@
 int main()
 {
     t_graphe_racine * racine= parsing();
-    if(racine)
-        gracine_clear(racine);
+    if(!racine)
+        return 0;
+    ft_printf("marche %d\n", parcours_graphe(racine));
+    gracine_print(racine);
+    gracine_clear(racine);
     return 0;
 }

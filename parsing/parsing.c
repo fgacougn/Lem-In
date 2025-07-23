@@ -137,13 +137,12 @@ int malloc_links(t_list *list, int size)
                 free(((t_graphe_noeud *)list->content)->links);
                 return ERR_MALLOC;
             }
+            ft_printf("bzero!!\n");
+            ft_bzero(((t_graphe_noeud *)list->content)->links,sizeof(t_graphe_noeud *) * (size + 1));
             return SUCCESS;
         }
         return ERR_MALLOC;
     }
-    else
-        return SUCCESS;
-    ft_bzero(((t_graphe_noeud *)list->content)->links,sizeof(t_graphe_noeud *) * (size + 1));
     return SUCCESS;
 }
 
@@ -196,7 +195,7 @@ int get_room(char *line, char is_peculiar, t_graphe_racine *rac, t_list **liste)
     char **tab;
 
     tab = ft_split(line,' ');
-    if (ft_splitlen(tab) != 3 || check_tab(tab) || find_gnoued(liste, tab[0]))
+    if (ft_splitlen(tab) != 3 || check_tab(tab) || find_gnoued(*liste, tab[0]))
     {
         ft_free_split(tab);
         return(ERR_BAD_ARGS);
@@ -235,11 +234,11 @@ int get_links(t_list **noeud, char *line)
     t_graphe_noeud *n1;
     t_graphe_noeud *n2;
     n1 = find_gnoued(*noeud, tab[0]);
-    gnoeud_print(n1);
+    // gnoeud_print(n1);
     tab[1][ft_strlen(tab[1]) - 1] = 0;
     n2 = find_gnoued(*noeud, tab[1]);
-    gnoeud_print(n2);
-    if (n1 && n2)
+    // gnoeud_print(n2);
+    if (n1 && n2 && n1 != n2)
     {
         gnoeud_add_link(n1,n2);
         ft_free_split(tab);
