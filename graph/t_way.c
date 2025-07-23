@@ -80,3 +80,22 @@ void way_add(t_way *start, t_way *end)
     
     // start->the_way[i] = end->the_way[0];
 }
+
+int way_len(t_way *target)
+{
+    int i =0;
+    while(target->the_way[i])
+        i++;
+    return i;
+}
+
+void path_clear(t_way *target)
+{
+    int i = 1;
+    while(target->the_way[i])
+    {
+        target->the_way[i]->has_a_way = FALSE;
+        i++;
+    }
+    way_del(target);
+}

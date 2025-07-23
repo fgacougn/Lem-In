@@ -17,7 +17,7 @@ int check_tab(char **tab)
     int i;
     int j;
 
-    ft_printf_split(tab);
+    // ft_printf_split(tab);
     if (ft_str_startwith(tab[0], "L") == SUCCESS)
     {
         ft_printf("Error: invalid room arguments : %s",tab[0]);
@@ -35,7 +35,7 @@ int check_tab(char **tab)
             }
         i++;
     }
-    ft_printf("checked succesfully\n");
+    // ft_printf("checked succesfully\n");
     return (0);
 }
 
@@ -65,11 +65,11 @@ t_graphe_racine *parsing()
             free(line);
             line = get_next_line(0);
         }
-        ft_printf("\npecu %d, startwith %d\n", ft_str_startwith(line,"#"), is_peculiar);
+        // ft_printf("\npecu %d, startwith %d\n", ft_str_startwith(line,"#"), is_peculiar);
         if(ft_str_startwith(line,"#") != SUCCESS || is_peculiar)
         {
             int res = get_room(line, is_peculiar, racine, &room);
-            ft_printf("res getroom %d\n", res);
+            // ft_printf("res getroom %d\n", res);
             if(res == ERR_BAD_ARGS)
                 breakpoint = 1;
             else if(res == ERR_MALLOC)
@@ -96,7 +96,7 @@ t_graphe_racine *parsing()
         ft_lstclear(&room,(void (*)(void *))gnoeud_del);
         return (NULL);
     }
-    ft_printf("is ouit\n");
+    // ft_printf("is ouit\n");
     racine->size = ft_lstsize(room);
     malloc_links(room,racine->size);
     int res;
@@ -105,7 +105,7 @@ t_graphe_racine *parsing()
         if(ft_str_startwith(line,"#") != SUCCESS)
         {
             res = get_links(&room, line);
-            ft_printf("get link %d\n", res);
+            // ft_printf("get link %d\n", res);
             if(res != SUCCESS)
                 {
                     printf("Error");
@@ -137,7 +137,7 @@ int malloc_links(t_list *list, int size)
                 free(((t_graphe_noeud *)list->content)->links);
                 return ERR_MALLOC;
             }
-            ft_printf("bzero!!\n");
+            // ft_printf("bzero!!\n");
             ft_bzero(((t_graphe_noeud *)list->content)->links,sizeof(t_graphe_noeud *) * (size + 1));
             return SUCCESS;
         }
@@ -157,7 +157,7 @@ void fill_racine(t_graphe_racine *racine, t_list * liste)
 
 int get_end_start(char **line, t_graphe_racine *rac, char * is_peculiar)
 {
-    ft_printf("%d start %d end %x racstart %x racend \n", ft_strcmp(*line, "##start"), ft_strcmp(*line ,"##end"),rac->start,rac->end );
+    // ft_printf("%d start %d end %x racstart %x racend \n", ft_strcmp(*line, "##start"), ft_strcmp(*line ,"##end"),rac->start,rac->end );
     if (!ft_strcmp(*line, "##start\n"))
     {
         if(rac->start)
@@ -174,7 +174,7 @@ int get_end_start(char **line, t_graphe_racine *rac, char * is_peculiar)
     }
     else if(!ft_strcmp(*line ,"##end\n"))
     {
-        ft_printf("%d end , %s line\n", rac->end, line);
+        // ft_printf("%d end , %s line\n", rac->end, line);
         if(rac->end)
             return ERR_BAD_ARGS;
         *is_peculiar = PECULIAR_END;
@@ -225,7 +225,7 @@ int get_links(t_list **noeud, char *line)
     char **tab;
 
     tab = ft_split(line,'-');
-    ft_printf_split(tab);
+    // ft_printf_split(tab);
     if (ft_splitlen(tab) != 2)
     {
         ft_free_split(tab);

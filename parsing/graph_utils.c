@@ -21,6 +21,7 @@ t_graphe_noeud *gnoeud_new(char *name, int x, int y)
         new->y = y;
         new->seen = 0;
         new->has_a_way = 0;
+        new->poids = -1;
     }
     return(new);
 }
@@ -126,21 +127,21 @@ t_graphe_noeud *find_gnoued(t_list *lst, char *name)
 
 void gracine_print(t_graphe_racine *target)
 {
-    int j;
     ft_printf("start %s\n", target->start->name);
     ft_printf("end %s\n", target->end->name);
-    for (int i =0; i < target->size ; i++)
-    {
-        ft_printf("Noeud %d: %s seen %d links", i, target->all[i]->name, target->all[i]->seen);
-        j = 0;
-        while(target->all[i]->links[j])
-        {
-            ft_printf("%s/",target->all[i]->links[j]->name);
-            j++;
-        }
-        ft_printf("first %x", target->all[i]->first);
-        ft_printf("\n");
-    }
+    // int j;
+    // for (int i =0; i < target->size ; i++)
+    // {
+    //     ft_printf("Noeud %d: %s seen %d links %d poids", i, target->all[i]->name, target->all[i]->seen, target->all[i]->poids);
+    //     j = 0;
+    //     while(target->all[i]->links[j])
+    //     {
+    //         ft_printf("%s/",target->all[i]->links[j]->name);
+    //         j++;
+    //     }
+    //     ft_printf("first %x", target->all[i]->first);
+    //     ft_printf("\n");
+    // }
     int i;
     i = 0;
     while(target->start_ways[i])

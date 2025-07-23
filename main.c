@@ -5,7 +5,11 @@ int main()
     t_graphe_racine * racine= parsing();
     if(!racine)
         return 0;
-    ft_printf("marche %d\n", parcours_graphe(racine));
+    ft_printf("Fin parsing\n");
+    floodfill(racine);
+    ft_printf("Fin floodfill\n");
+    ft_printf("marche %d\n", parcours_floodfill(racine));
+    // ft_printf("marche %d\n", parcours_graphe(racine));
     gracine_print(racine);
     gracine_clear(racine);
     return 0;
