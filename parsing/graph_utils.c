@@ -21,6 +21,7 @@ t_graphe_noeud *gnoeud_new(char *name, int x, int y)
         new->y = y;
         new->seen = 0;
         new->has_a_way = 0;
+        new->poids = -1;
     }
     return(new);
 }
@@ -131,7 +132,7 @@ void gracine_print(t_graphe_racine *target)
     ft_printf("end %s\n", target->end->name);
     for (int i =0; i < target->size ; i++)
     {
-        ft_printf("Noeud %d: %s seen %d links", i, target->all[i]->name, target->all[i]->seen);
+        ft_printf("Noeud %d: %s seen %d links %d poids", i, target->all[i]->name, target->all[i]->seen, target->all[i]->poids);
         j = 0;
         while(target->all[i]->links[j])
         {

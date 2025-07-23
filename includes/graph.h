@@ -31,6 +31,7 @@ typedef struct graphe_noeud{
     char seen;
     char has_a_way;
     struct way *first;
+    int poids;
 } t_graphe_noeud;
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
@@ -67,5 +68,6 @@ void ways_del(t_way**, int size );
 t_way *way_cpy(t_way *);
 void way_add(t_way *start, t_way *end);
 void way_print(t_way *);
+int way_len(t_way *);
 
 #endif
