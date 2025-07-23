@@ -26,26 +26,27 @@ t_graphe_noeud *gnoeud_new(char *name, int x, int y)
     return(new);
 }
 
-//to do : empecher de creer un lien qui existe deja.
-void gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second)
+int gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second)
 {
     if (first && second)
     {
-        // first->links[second->id] = second;
-        // second->links[first->id] = first;
         int i;
 
         i = 0;
         while (first->links[i])
+        {
+            if(first->links[i]->id == second->id)
+                return(FAILURE);
             i++;
+        }
         first->links[i] = second;
-        // first->links[++i] = NULL;
         i = 0;
         while (second->links[i])
             i++;
         second->links[i] = first;
-        // first->links[++i] = NULL;
+        return (SUCCESS);
     }
+    return (FAILURE);
 }
 
 
