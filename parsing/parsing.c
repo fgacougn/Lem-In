@@ -248,7 +248,6 @@ int get_links(t_list **noeud, char *line)
             count++;
     }
     tab = ft_split(line,'-');
-    ft_printf_split(tab);
     if (ft_splitlen(tab) != 2 || count != 1)
     {
         ft_free_split(tab);

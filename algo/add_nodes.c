@@ -48,7 +48,7 @@ int way_treatment(t_way **ways_to_add_nodes, char start, int *way_length, int in
             {
                 t_way *new;
                 new = way_cpy(ways_to_add_nodes[i]);
-                new->the_way[k] = noeud->links[k];
+                new->the_way[j + 1] = noeud->links[k];
                 ways_to_add_nodes[(*way_length)++] = new;
                 noeud->links[k]->first = ways_to_add_nodes[*way_length - 1];
             }
