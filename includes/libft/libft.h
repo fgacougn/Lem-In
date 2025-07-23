@@ -23,6 +23,9 @@
 # define SMOL 1
 # define BIGOLD 2
 
+#define TRUE 1
+#define FALSE 0
+
 # define ERR_BAD_READ -1
 # define ERR_NUL_STR -2
 # define SUCCESS -3
