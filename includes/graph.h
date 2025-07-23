@@ -42,6 +42,7 @@ void gnoeud_print(t_graphe_noeud *);
 
 typedef struct graphe_racine{
     int size;
+    int ants;
     t_graphe_noeud *start;
     t_graphe_noeud **all;
     t_graphe_noeud *end;
