@@ -83,7 +83,7 @@ void ants_ways(t_graphe_racine *terre)
                 walking[i][WALKING_FIRST_ROOM] +=1;
             }
             
-             
+            // ft_printf("////I = %d %d////", i, ways[i]);
             for(int j = 0; j < walking[i][WALKING_NB]; j++)
             {
                 // ft_printf("%d nb\n", walking[i][WALKING_LNB]);

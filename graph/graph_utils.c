@@ -135,12 +135,12 @@ void gracine_print(t_graphe_racine *target)
     // {
     //     ft_printf("Noeud %d: %s seen %d links %d poids", i, target->all[i]->name, target->all[i]->seen, target->all[i]->poids);
     //     j = 0;
-    //     while(target->all[i]->links[j])
-    //     {
-    //         ft_printf("%s/",target->all[i]->links[j]->name);
-    //         j++;
-    //     }
-    //     ft_printf("first %x", target->all[i]->first);
+    //     // while(target->all[i]->links[j])
+    //     // {
+    //     //     ft_printf("%s/",target->all[i]->links[j]->name);
+    //     //     j++;
+    //     // }
+    //     // ft_printf("first %x", target->all[i]->first);
     //     ft_printf("\n");
     // }
     int i;
@@ -150,5 +150,13 @@ void gracine_print(t_graphe_racine *target)
         if(target->start_ways[i])
             way_print(target->start_ways[i]);
         i++;
+    }
+}
+
+void gracine_clean_seen(t_graphe_racine *target)
+{
+    for(int i = 0 ; i < target->size ; i++ )
+    {
+        target->all[i]->seen = 0;
     }
 }
