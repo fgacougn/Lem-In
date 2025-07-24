@@ -26,8 +26,8 @@ void make_ways(int *ways, t_graphe_racine *terre)
 
 void ants_ways(t_graphe_racine *terre)
 {
-    // int nb_ants = terre->ants;
-    int nb_ants = 12;
+    int nb_ants = terre->ants;
+    // int nb_ants = 12;
     int nb_ways = count_ways(terre);
     if(!nb_ants || !nb_ways)
         return ;
