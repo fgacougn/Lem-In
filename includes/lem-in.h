@@ -15,7 +15,7 @@
 
 #include "graph.h"
 #include "algo.h"
+#include "parsing.h"
 
-t_graphe_racine *parsing();
 
 #endif
