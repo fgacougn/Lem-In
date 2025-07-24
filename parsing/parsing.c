@@ -48,6 +48,7 @@ int get_ants(char *line)
             return (FAILURE);
         }
     }
+    ft_printf("%s", line);
     return(SUCCESS);
 }
 
@@ -76,6 +77,7 @@ t_graphe_racine *parsing()
         is_peculiar = 0;
         if(ft_str_startwith(line,"##") == SUCCESS)
         {
+            ft_putendl_fd(line, 1);
             if(get_end_start(&line, racine, &is_peculiar) == ERR_BAD_ARGS)
             {
                 free(line);
@@ -86,9 +88,12 @@ t_graphe_racine *parsing()
             }
             free(line);
             line = get_next_line(0);
+            if(line[ft_strlen(line) - 1] == '\n')
+                line[ft_strlen(line) - 1] = 0;
         }
         if(ft_str_startwith(line,"#") != SUCCESS || is_peculiar)
         {
+            // ft_putendl_fd(line, 1);
             int res = get_room(line, is_peculiar, racine, &room);
             if(res == ERR_BAD_ARGS)
                 breakpoint = 1;
@@ -103,6 +108,7 @@ t_graphe_racine *parsing()
         }
         if(!breakpoint)
         {
+            ft_putendl_fd(line, 1);
             free(line);
             line = get_next_line(0);
         }
@@ -121,6 +127,8 @@ t_graphe_racine *parsing()
     int res;
     while (line && ft_strlen(line))
     {
+        if(line[ft_strlen(line) - 1] == '\n')
+            line[ft_strlen(line) - 1] = 0;
         if(ft_str_startwith(line,"#") != SUCCESS)
         {
             res = get_links(&room, line);
@@ -134,12 +142,15 @@ t_graphe_racine *parsing()
                 return(NULL);
             }
         }
+        
+        ft_printf("%s\n",line);
         free(line);
         line = get_next_line(0);
     }
     racine->all = malloc(sizeof(t_graphe_noeud *) *(racine->size +1));
     fill_racine(racine, room);
     ft_lstclear(&room, rien);
+    ft_printf("\n");
     return (racine);
 }
 
