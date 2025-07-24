@@ -99,3 +99,36 @@ void path_clear(t_way *target)
     }
     way_del(target);
 }
+
+void set_way(t_way *target)
+{
+    int i = 0;
+    while(target->the_way[i])
+    {
+        if(target->the_way[i]->is_peculiar != PECULIAR_END)
+            target->the_way[i]->has_a_way = TRUE;
+        i++;
+    }
+}
+
+void sort_ways(t_way **target)
+{
+    int hasmoved;
+    t_way *temp;
+    hasmoved = 1;
+    while(hasmoved)
+    {
+        hasmoved = 0;
+        for(int i = 0; i < id_noeud - 1 && target[i + 1]; i++)
+        {
+            if(way_len(target[i]) > way_len(target[i+1]))
+            {
+                hasmoved = 1;
+                temp = target[i];
+                target[i] = target[i+1];
+                target[i+1] =temp;
+            }
+        }
+    }
+    
+}

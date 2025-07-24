@@ -11,7 +11,7 @@ main.c\
 graph/graph_utils.c\
 parsing/parsing.c
 
-$(NAME) :
+$(NAME) : $(SOURCES)
 	make -C ./includes/libft
 	cc -Wall -Werror -Wextra -g3 $(SOURCES) -L./includes -lft -I./includes -o $(NAME)
 
