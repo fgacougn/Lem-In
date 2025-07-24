@@ -1,11 +1,4 @@
-#include "graph.h"
-
-
-int get_room(char *line, char is_peculiar, t_graphe_racine *rac, t_list **liste);
-int get_links(t_list **noeud, char *line);
-int malloc_links(t_list *list, int size);
-int get_end_start(char **line, t_graphe_racine *rac, char * is_peculiar);
-void fill_racine(t_graphe_racine *racine, t_list * liste);
+#include "parsing.h"
 
 void rien(void *todo){
     todo +=1;
