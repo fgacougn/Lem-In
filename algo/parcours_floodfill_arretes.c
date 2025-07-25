@@ -28,10 +28,35 @@ static char build_way_recursif(t_graphe_racine *terre, t_way * way, int index)
     if(toreturn)
         return SUCCESS;
     return FAILURE;
-    
 }
 
-char parcours_floodfill_arretes(t_graphe_racine *terre)
+static char build_way_recursif_arrete(t_graphe_racine *terre, t_arrete *arrete, t_way * way, int index){
+    int min,i;
+    t_graphe_noeud *toreturn;
+
+    do{
+        way->the_way[index +1] = 0;
+        min = terre->size;
+        i = 0;
+        toreturn = 0;
+        do{
+            if(arrete->link && min >= arrete->next->poids && way->the_way[index]->links[i]->has_a_way && !arrete->next)
+            {
+                min = arrete->next->poids;
+                toreturn =  way->arretes->link;
+            }
+        i++;
+        }while (arrete->next);
+        way->the_way[index + 1] = toreturn;
+        if(toreturn)
+            toreturn->seen = TRUE;
+    }while (toreturn != terre->end && toreturn && build_way_recursif_arrete(arrete,terre, way, index+1) == FAILURE);
+    if(toreturn)
+        return (SUCCESS);
+    return(FAILURE);
+}
+
+char parcours_floodfill(t_graphe_racine *terre)
 {
     if(terre->end->poids == -1)
         return FAILURE;
@@ -51,6 +76,40 @@ char parcours_floodfill_arretes(t_graphe_racine *terre)
         new->the_way[0] = terre->start;
         // if(build_way(terre, new) == SUCCESS)
         if(build_way_recursif(terre, new, 0) == SUCCESS)
+        {
+            terre->start_ways[i] = new;
+            set_way(new);
+        }
+        else
+            path_clear(new);
+        gracine_clean_seen(terre);
+    }while (terre->start_ways[i]);
+    sort_ways(terre->start_ways);
+    if(terre->start_ways[0])
+        return SUCCESS;
+    return FAILURE;
+}
+
+char parcours_floodfill_arrete(t_graphe_racine *terre, t_arrete *arrete)
+{
+    if(terre->end->poids == -1)
+        return FAILURE;
+    if(terre->start_ways)
+        ways_del(terre->start_ways,terre->size);
+    terre->start_ways = malloc((terre->size /2 + 1) * sizeof(t_way *));
+    if(!terre->start_ways)
+        return ERR_MALLOC;
+    ft_bzero(terre->start_ways,(terre->size /2 + 1) * sizeof(t_way *));
+    terre->start->has_a_way = TRUE;
+    int i = -1;
+    t_way * new;
+    do
+    {
+        i++;
+        new = way_new(terre->size);
+        new->the_way[0] = terre->start;
+        // if(build_way(terre, new) == SUCCESS)
+        if(build_way_recursif_arrete(terre, arrete, new, 0) == SUCCESS)
         {
             terre->start_ways[i] = new;
             set_way(new);
