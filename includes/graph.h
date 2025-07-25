@@ -20,11 +20,27 @@
 
 struct way;
 extern int id_noeud;
+struct graphe_noeud;
+
+typedef struct arrete{
+    struct arrete *next;
+    struct arrete *before;
+    int poids;
+    struct graphe_noeud **inside;
+    char is_direct;
+    struct graphe_noeud *link;
+} t_arrete;
 
 typedef struct graphe_noeud{
     int id;
     char * name;
+    int up;
+    int down;
+    int from;
+    t_arrete *arretes;
     struct graphe_noeud ** links;
+    struct graphe_noeud ** links_up;
+    struct graphe_noeud ** links_down;
     char is_peculiar;
     int x;
     int y;
@@ -34,8 +50,20 @@ typedef struct graphe_noeud{
     int poids;
 } t_graphe_noeud;
 
+t_arrete *arrete_new(t_graphe_noeud *to);
+t_arrete *arrete_new_large(t_graphe_noeud *from, t_graphe_noeud *from2, t_graphe_noeud *to, t_graphe_noeud *to2);
+void arrete_del(t_arrete *);
+void arrete_clear(t_arrete *);
+int arrete_len(t_arrete *);
+int arrete_add_front(t_arrete **front, t_arrete *);
+int arrete_pop(t_arrete **front, t_arrete *);
+void print_arretes(t_arrete *);
+
+
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
 int gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second);
+int gnoeud_has_arrete(t_graphe_noeud *first, t_graphe_noeud *second);
+int gnoeud_add_arrete(t_graphe_noeud *first, t_graphe_noeud *second);
 void gnoeud_del(t_graphe_noeud *del);
 t_graphe_noeud *find_gnoued(t_list *lst, char *name);
 void gnoeud_print(t_graphe_noeud *);
@@ -57,11 +85,14 @@ void gracine_clear(t_graphe_racine *target);
 void gracine_print(t_graphe_racine *);
 void gracine_clean_seen(t_graphe_racine *);
 t_graphe_racine *parsing();
+int set_link_tabs(t_graphe_racine *);
 
 
 typedef struct way{
     int size;
     t_graphe_noeud ** the_way;
+    t_arrete *arretes;
+    t_arrete *last;
 } t_way;
 
 t_way * way_new(int size);
@@ -74,5 +105,8 @@ int way_len(t_way *);
 void path_clear(t_way *);
 void set_way(t_way *);
 void sort_ways(t_way **);
+int way_addback(t_way *, t_arrete *);
+t_arrete way_popback(t_way *);
+int way_clearback(t_way *);
 
 #endif

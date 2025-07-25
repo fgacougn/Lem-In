@@ -1,41 +1,5 @@
 #include "algo.h"
 
-static t_graphe_noeud *get_next_min(t_graphe_noeud *target, int max)
-{
-    int min = max, i = 0;
-    t_graphe_noeud *toreturn = 0;
-    do{
-        if(min >= target->links[i]->poids && target->links[i]->has_a_way == FALSE)
-        {
-            min = target->links[i]->poids;
-            toreturn = target->links[i];
-        }
-        i++;
-    }while(target->links[i]);
-    return toreturn;
-}
-
-static char build_way(t_graphe_racine *terre, t_way * way)
-{
-    int i = 0;
-    t_graphe_noeud *next;
-    do
-    {
-        next = get_next_min(way->the_way[i++], terre->size);
-        if(next)
-        {
-            if(next != terre->end)
-                next->has_a_way = TRUE;
-            way->the_way[i] = next;
-        }
-    }
-    while(next && next != terre->end);
-    if(next == terre->end)
-        return SUCCESS;
-    return FAILURE;
-
-}
-
 static char build_way_recursif(t_graphe_racine *terre, t_way * way, int index)
 {
     int min, i;
@@ -67,7 +31,7 @@ static char build_way_recursif(t_graphe_racine *terre, t_way * way, int index)
     
 }
 
-char parcours_floodfill(t_graphe_racine *terre)
+char parcours_floodfill_arretes(t_graphe_racine *terre)
 {
     if(terre->end->poids == -1)
         return FAILURE;

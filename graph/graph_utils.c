@@ -49,6 +49,38 @@ int gnoeud_add_link(t_graphe_noeud *first, t_graphe_noeud *second)
     return (FAILURE);
 }
 
+int gnoeud_has_arrete(t_graphe_noeud *first, t_graphe_noeud *second)
+{
+    t_arrete *temp;
+    if(!first || !second)
+        return FALSE;
+    temp = first->arretes;
+    while(temp && temp->link != second)
+        temp = temp->next;
+    if(temp && temp->link == second)
+        return TRUE;
+    return FALSE;
+}
+
+
+int gnoeud_add_arrete(t_graphe_noeud *first, t_graphe_noeud *second)
+{
+    if(!first || !second || gnoeud_has_arrete(first, second) || gnoeud_has_arrete(second, first))
+        return FAILURE;
+    t_arrete *new;
+    new = arrete_new(second);
+    if(!new)
+        return FAILURE;
+    if(arrete_add_front(&(first->arretes), new) == FAILURE)
+        return FAILURE;
+    new = arrete_new(first);
+    if(!new)
+        return FAILURE;
+    if(arrete_add_front(&(second->arretes), new) == FAILURE)
+        return FAILURE;
+    return SUCCESS;
+}
+
 
 void gnoeud_del(t_graphe_noeud *del)
 {
@@ -56,7 +88,14 @@ void gnoeud_del(t_graphe_noeud *del)
         return;
     if(del->name)
         free(del->name);
-    free(del->links);
+    if(del->links)
+        free(del->links);
+    if(del->links_up)
+        free(del->links_up);
+    if(del->links_down)
+        free(del->links_down);
+    if(del->arretes)
+        arrete_clear(del->arretes);
     free(del);
 }
 
@@ -130,27 +169,30 @@ void gracine_print(t_graphe_racine *target)
 {
     ft_printf("start %s\n", target->start->name);
     ft_printf("end %s\n", target->end->name);
-    // int j;
-    // for (int i =0; i < target->size ; i++)
-    // {
-    //     ft_printf("Noeud %d: %s seen %d links %d poids", i, target->all[i]->name, target->all[i]->seen, target->all[i]->poids);
-    //     j = 0;
-    //     // while(target->all[i]->links[j])
-    //     // {
-    //     //     ft_printf("%s/",target->all[i]->links[j]->name);
-    //     //     j++;
-    //     // }
-    //     // ft_printf("first %x", target->all[i]->first);
-    //     ft_printf("\n");
-    // }
+    int j;
+    for (int i =0; i < target->size ; i++)
+    {
+        ft_printf("Noeud %d: %s seen %d poids %d links", i, target->all[i]->name, target->all[i]->seen, target->all[i]->poids);
+        j = 0;
+        while(target->all[i]->links[j])
+        {
+            ft_printf("%s/",target->all[i]->links[j]->name);
+            j++;
+        }
+        if(target->all[i]->arretes)
+            print_arretes(target->all[i]->arretes);
+        ft_printf("first %x", target->all[i]->first);
+        ft_printf("\n");
+    }
     int i;
     i = 0;
-    while(target->start_ways[i])
-    {
-        if(target->start_ways[i])
-            way_print(target->start_ways[i]);
-        i++;
-    }
+    if(target->start_ways)
+        while(target->start_ways[i])
+        {
+            if(target->start_ways[i])
+                way_print(target->start_ways[i]);
+            i++;
+        }
 }
 
 void gracine_clean_seen(t_graphe_racine *target)
@@ -159,4 +201,20 @@ void gracine_clean_seen(t_graphe_racine *target)
     {
         target->all[i]->seen = 0;
     }
+}
+
+
+int set_link_tabs(t_graphe_racine *racine)
+{
+    int j = 0;
+    for(int i = 0 ; i < racine->size ; i++)
+    {
+        while(racine->all[i]->links[j])
+            j++;
+        racine->all[i]->links_up = malloc(sizeof(t_graphe_noeud * ) * (j+1));
+        racine->all[i]->links_down = malloc(sizeof(t_graphe_noeud * ) * (j+1));
+        if(!(racine->all[i]->links_up) || !(racine->all[i]->links_down))
+            return ERR_MALLOC;
+    }
+    return SUCCESS;
 }

@@ -264,7 +264,8 @@ int get_links(t_list **noeud, char *line)
     if(tab[1][ft_strlen(tab[1]) - 1] == '\n')
         tab[1][ft_strlen(tab[1]) - 1] = 0;
     n2 = find_gnoued(*noeud, tab[1]);
-    int  res = gnoeud_add_link(n1,n2);
+    // int  res = gnoeud_add_link(n1,n2);
+    int  res = gnoeud_add_arrete(n1,n2);
     if (n1 && n2 && n1 != n2 && res == SUCCESS)
     {
         ft_free_split(tab);

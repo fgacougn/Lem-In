@@ -7,6 +7,7 @@ algo/floodfill.c\
 algo/parcours_floodfill.c\
 algo/parcours_graphe.c\
 graph/t_way.c\
+graph/t_arrete.c\
 main.c\
 graph/graph_utils.c\
 parsing/parsing.c
