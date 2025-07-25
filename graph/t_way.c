@@ -22,7 +22,7 @@ void way_del(t_way *todel)
 {
     if(!todel)
         return;
-    if(todel->theway)
+    if(todel->the_way)
         free(todel->the_way);
     if(todel->arretes)
         arrete_clear(todel->arretes);

@@ -106,7 +106,7 @@ void path_clear(t_way *);
 void set_way(t_way *);
 void sort_ways(t_way **);
 int way_addback(t_way *, t_arrete *);
-t_arrete way_popback(t_way *);
+t_arrete *way_popback(t_way *);
 int way_clearback(t_way *);
 
 #endif
