@@ -6,6 +6,7 @@ int main()
     if(!racine)
         return 0;
     // ft_printf("Fin parsing\n");
+    graph_simplify(racine);
     floodfill_arretes(racine);
     // ft_printf("Fin floodfill\n");
     parcours_floodfill_arrete(racine);

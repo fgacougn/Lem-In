@@ -56,7 +56,7 @@ void floodfill_arretes(t_graphe_racine *terre)
         {
             if(arrete->link->poids == -1 || arrete->link->poids > poids + arrete->poids)
             {
-                arrete->link->poids = poids + 1;
+                arrete->link->poids = poids + arrete->poids;
                 if(arrete->link != terre->start){
                     j++;
                     tofill[j] = arrete->link->id;
