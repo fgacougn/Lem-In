@@ -10,7 +10,10 @@ graph/t_way.c\
 graph/t_arrete.c\
 main.c\
 graph/graph_utils.c\
-parsing/parsing.c
+parsing/parsing.c\
+algo/parcours_floodfill_arretes.c\
+
+
 
 $(NAME) : $(SOURCES)
 	make -C ./includes/libft
