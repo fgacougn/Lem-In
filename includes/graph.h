@@ -51,13 +51,14 @@ typedef struct graphe_noeud{
 } t_graphe_noeud;
 
 t_arrete *arrete_new(t_graphe_noeud *to);
-t_arrete *arrete_new_large(t_graphe_noeud *from, t_graphe_noeud *from2, t_graphe_noeud *to, t_graphe_noeud *to2);
+int arrete_new_large(t_graphe_noeud *from, t_graphe_noeud *from2, t_graphe_noeud *to, t_graphe_noeud *to2);
 void arrete_del(t_arrete *);
 void arrete_clear(t_arrete *);
 int arrete_len(t_arrete *);
 int arrete_add_front(t_arrete **front, t_arrete *);
 int arrete_pop(t_arrete **front, t_arrete *);
 void print_arretes(t_arrete *);
+void next_arrete(t_graphe_noeud **from, t_graphe_noeud **before);
 
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
@@ -84,6 +85,7 @@ void gracine_del(t_graphe_racine *target);
 void gracine_clear(t_graphe_racine *target);
 void gracine_print(t_graphe_racine *);
 void gracine_clean_seen(t_graphe_racine *);
+void gracine_clean_way(t_graphe_racine *);
 t_graphe_racine *parsing();
 int set_link_tabs(t_graphe_racine *);
 

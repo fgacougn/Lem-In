@@ -204,6 +204,14 @@ void gracine_clean_seen(t_graphe_racine *target)
 }
 
 
+void gracine_clean_way(t_graphe_racine *target)
+{
+    for(int i = 0 ; i < target->size ; i++ )
+    {
+        target->all[i]->has_a_way = 0;
+    }
+}
+
 int set_link_tabs(t_graphe_racine *racine)
 {
     int j = 0;

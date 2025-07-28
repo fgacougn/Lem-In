@@ -19,5 +19,6 @@ void floodfill_arretes(t_graphe_racine *);
 char parcours_floodfill(t_graphe_racine *);
 char parcours_floodfill_arretes(t_graphe_racine *terre, t_arrete *arrete);
 void ants_ways(t_graphe_racine *);
+int graph_simplify(t_graphe_racine *);
 
 #endif
