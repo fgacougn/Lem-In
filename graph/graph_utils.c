@@ -179,6 +179,7 @@ void gracine_print(t_graphe_racine *target)
             ft_printf("%s/",target->all[i]->links[j]->name);
             j++;
         }
+        ft_printf("arretes?");
         if(target->all[i]->arretes)
             print_arretes(target->all[i]->arretes);
         ft_printf("first %x", target->all[i]->first);
