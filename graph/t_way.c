@@ -22,7 +22,10 @@ void way_del(t_way *todel)
 {
     if(!todel)
         return;
-    free(todel->the_way);
+    if(todel->the_way)
+        free(todel->the_way);
+    if(todel->arretes)
+        arrete_clear(todel->arretes);
     free(todel);
 }
 
@@ -131,4 +134,44 @@ void sort_ways(t_way **target)
         }
     }
     
+}
+
+int way_addback(t_way *way, t_arrete *target)
+{
+    if(!way || !target)
+        return FAILURE;
+    if(!way->arretes)
+    {
+        way->arretes = target;
+        way->last = target;
+    }
+    else
+    {
+        way->last->next = target;
+        target->before = way->last;
+        way->last = target;
+    }
+    return SUCCESS;
+}
+
+t_arrete *way_popback(t_way *way)
+{
+    t_arrete *retour;
+    if(!way)
+        return 0;
+    retour = way->last;
+    way->last = way->last->before;
+    retour->before->next = 0;
+    retour->before = 0;
+    return retour;
+}
+
+int way_clearback(t_way *way)
+{
+    if(!way)
+        return FAILURE;
+    t_arrete *temp = way_popback(way);
+    if(temp)
+        free(temp);
+    return SUCCESS;
 }

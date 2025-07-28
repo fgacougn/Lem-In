@@ -15,7 +15,9 @@
 char parcours_graphe(t_graphe_racine *);
 int add_nodes(t_way **ways_to_add_nodes, char start);
 void floodfill(t_graphe_racine *);
+void floodfill_arretes(t_graphe_racine *);
 char parcours_floodfill(t_graphe_racine *);
+char parcours_floodfill_arretes(t_graphe_racine *terre, t_arrete *arrete);
 void ants_ways(t_graphe_racine *);
 
 #endif
