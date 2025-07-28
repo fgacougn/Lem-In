@@ -1,62 +1,55 @@
 #include "algo.h"
 
-static char build_way_recursif(t_graphe_racine *terre, t_way * way, int index)
-{
-    int min, i;
-    t_graphe_noeud *toreturn;
-    do {
-        way->the_way[index + 1] = 0;
-        min = terre->size;
-        i = 0;
-        toreturn = 0;
-        do{
-            // ft_printf("%d %d %d %d %d %d ", index, i,way->the_way[index], way->the_way[index]->links[i]->poids, way->the_way[index]->links[i]->has_a_way, way->the_way[index]->links[i]->seen);
-            // ft_printf("%s\n", way->the_way[index]->links[i]->name);
-            if(min >= way->the_way[index]->links[i]->poids && way->the_way[index]->links[i]->has_a_way == FALSE && way->the_way[index]->links[i]->seen == FALSE)
-            {
-                min = way->the_way[index]->links[i]->poids;
-                toreturn = way->the_way[index]->links[i];
-            }
-            i++;
-        }while(way->the_way[index]->links[i]);
-        // if(toreturn)
-        //     ft_printf("//%d %s\n", index, toreturn->name);
-        way->the_way[index + 1] = toreturn;
-        if(toreturn)
-            toreturn->seen = TRUE;
-    } while(toreturn != terre->end && toreturn && build_way_recursif(terre, way, index + 1) == FAILURE);
-    if(toreturn)
-        return SUCCESS;
-    return FAILURE;
-}
-
-static char build_way_recursif_arrete(t_graphe_racine *terre, t_arrete *arrete, t_way * way, int index){
-    int min,i;
+static char build_way_recursif_arrete(t_graphe_racine *terre, t_way * way,t_arrete *arrete, int index){
+    int min = 0, is_back = 0;
+    t_arrete *temp,*temp2 = 0;
     t_graphe_noeud *toreturn;
 
+    way_print(way);
+    ft_printf("\n");
+    temp = arrete;
     do{
-        way->the_way[index +1] = 0;
+        ft_printf("ledo %d\n", index);
+        if(is_back)
+        {
+            way_clearback(way);
+        }
+        temp = way->last->link->arretes;
         min = terre->size;
-        i = 0;
         toreturn = 0;
-        do{
-            if(arrete->link && min >= arrete->next->poids && way->the_way[index]->links[i]->has_a_way && !arrete->next)
+        is_back = 0;
+        while (temp)
+        {
+            ft_printf("%s min: %d poid: %d has a way: %d seen: %d \n",temp->link->name,min,temp->link->poids,temp->link->has_a_way,temp->link->seen);
+            
+            if(min >= temp->link->poids && temp->link->has_a_way == FALSE && temp->link->seen == FALSE)
             {
-                min = arrete->next->poids;
-                toreturn =  way->arretes->link;
+                
+                min = temp->link->poids;
+                toreturn = temp->link;
+                temp2 = temp;
             }
-        i++;
-        }while (arrete->next);
-        way->the_way[index + 1] = toreturn;
+            
+            temp = temp->next;
+        }
+        
         if(toreturn)
+        {
             toreturn->seen = TRUE;
-    }while (toreturn != terre->end && toreturn && build_way_recursif_arrete(arrete,terre, way, index+1) == FAILURE);
+            if(way_addback(way, arrete_cpy(temp2))!= SUCCESS)
+                    return ERR_MALLOC;
+            way_print(way);
+            ft_printf("\n");
+        }
+        is_back = 1;
+    }while (toreturn != terre->end && toreturn && build_way_recursif_arrete(terre,way, toreturn->arretes, index + 1) == FAILURE);
+
     if(toreturn)
         return (SUCCESS);
     return(FAILURE);
 }
 
-char parcours_floodfill(t_graphe_racine *terre)
+char parcours_floodfill_arrete(t_graphe_racine *terre)
 {
     if(terre->end->poids == -1)
         return FAILURE;
@@ -72,44 +65,13 @@ char parcours_floodfill(t_graphe_racine *terre)
     do
     {
         i++;
+        ft_printf("retour vers avant %d\n", i);
         new = way_new(terre->size);
-        new->the_way[0] = terre->start;
+        // new->the_way[0] = terre->start;
+        if(way_addback(new, arrete_new(terre->start)) == FAILURE)
+            return (FAILURE);
         // if(build_way(terre, new) == SUCCESS)
-        if(build_way_recursif(terre, new, 0) == SUCCESS)
-        {
-            terre->start_ways[i] = new;
-            set_way(new);
-        }
-        else
-            path_clear(new);
-        gracine_clean_seen(terre);
-    }while (terre->start_ways[i]);
-    sort_ways(terre->start_ways);
-    if(terre->start_ways[0])
-        return SUCCESS;
-    return FAILURE;
-}
-
-char parcours_floodfill_arrete(t_graphe_racine *terre, t_arrete *arrete)
-{
-    if(terre->end->poids == -1)
-        return FAILURE;
-    if(terre->start_ways)
-        ways_del(terre->start_ways,terre->size);
-    terre->start_ways = malloc((terre->size /2 + 1) * sizeof(t_way *));
-    if(!terre->start_ways)
-        return ERR_MALLOC;
-    ft_bzero(terre->start_ways,(terre->size /2 + 1) * sizeof(t_way *));
-    terre->start->has_a_way = TRUE;
-    int i = -1;
-    t_way * new;
-    do
-    {
-        i++;
-        new = way_new(terre->size);
-        new->the_way[0] = terre->start;
-        // if(build_way(terre, new) == SUCCESS)
-        if(build_way_recursif_arrete(terre, arrete, new, 0) == SUCCESS)
+        if(build_way_recursif_arrete(terre,new, new->arretes->link->arretes, 0) == SUCCESS)
         {
             terre->start_ways[i] = new;
             set_way(new);

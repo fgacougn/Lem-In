@@ -159,3 +159,17 @@ void print_arretes(t_arrete *target)
         print_arretes(target->next);
     }
 }
+
+t_arrete *arrete_cpy(t_arrete *tocpy)
+{
+    if (!tocpy)
+        return(NULL);
+    t_arrete *new = arrete_new(tocpy->link);
+    if(new)
+    {
+        new->poids = tocpy->poids;
+        new->is_direct = tocpy->is_direct;
+        new->inside = tocpy->inside;
+    }
+    return new;
+}

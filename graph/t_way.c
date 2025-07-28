@@ -6,6 +6,7 @@ t_way * way_new(int size)
     new = malloc(sizeof(t_way));
     if(new)
     {
+        ft_bzero(new, sizeof(t_way));
         new->the_way = malloc(size * sizeof(t_graphe_noeud));
         if(new->the_way)
         {
@@ -64,24 +65,34 @@ void way_print(t_way *target)
         ft_printf("->%s", target->the_way[i]->name);
         i++;
     }
+    t_arrete *temp;
+    temp = target->arretes;
+    while(temp)
+    {
+        ft_printf("->%s", temp->link->name);
+        temp= temp->next;
+    }
     ft_printf("\n");
 }
 
 void way_add(t_way *start, t_way *end)
 {
-    int i = -1;
-    while(start->the_way[++i]);
-    int j = -1;
-    while(end->the_way[++j]);
-    ft_printf("%d %d\n", end->the_way[0], j);
-    way_print(end);
-    while(--j + 1)
+    if(!end || !start)
     {
-        ft_printf("adding %d in %d\n",j , i);
-        start->the_way[i++] = end->the_way[j];
+        int i = -1;
+        while(start->the_way[++i]);
+        int j = -1;
+        while(end->the_way[++j]);
+        ft_printf("%d %d\n", end->the_way[0], j);
+        way_print(end);
+        while(--j + 1)
+        {
+            ft_printf("adding %d in %d\n",j , i);
+            start->the_way[i++] = end->the_way[j];
+        }
+        
+        // start->the_way[i] = end->the_way[0];
     }
-    
-    // start->the_way[i] = end->the_way[0];
 }
 
 int way_len(t_way *target)
@@ -100,6 +111,12 @@ void path_clear(t_way *target)
         target->the_way[i]->has_a_way = FALSE;
         i++;
     }
+    t_arrete * temp = target->arretes;
+    while(temp)
+    {
+        temp->link->has_a_way = FALSE;
+        temp = temp->next;
+    }
     way_del(target);
 }
 
@@ -111,6 +128,13 @@ void set_way(t_way *target)
         if(target->the_way[i]->is_peculiar != PECULIAR_END)
             target->the_way[i]->has_a_way = TRUE;
         i++;
+    }
+    t_arrete *temp = target->arretes;
+    while(temp)
+    {
+        if(temp->link->is_peculiar != PECULIAR_END)
+            temp->link->has_a_way = TRUE;
+        temp = temp->next;
     }
 }
 
@@ -138,6 +162,7 @@ void sort_ways(t_way **target)
 
 int way_addback(t_way *way, t_arrete *target)
 {
+    ft_printf("addback %s//", target->link->name);
     if(!way || !target)
         return FAILURE;
     if(!way->arretes)
@@ -151,6 +176,7 @@ int way_addback(t_way *way, t_arrete *target)
         target->before = way->last;
         way->last = target;
     }
+    ft_printf("addedback %s//", way->last->link->name);
     return SUCCESS;
 }
 
@@ -160,9 +186,14 @@ t_arrete *way_popback(t_way *way)
     if(!way)
         return 0;
     retour = way->last;
-    way->last = way->last->before;
-    retour->before->next = 0;
-    retour->before = 0;
+    if(way->last)
+        way->last = way->last->before;
+    if(retour && retour->before)
+    {
+        retour->before->next = 0;
+    }
+    if(retour)
+        retour->before = 0;
     return retour;
 }
 
