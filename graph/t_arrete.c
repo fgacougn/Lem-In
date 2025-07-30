@@ -120,6 +120,13 @@ int arrete_len(t_arrete *target)
     return 0;
 }
 
+int count_noeud(t_arrete *target)
+{
+    if(target)
+        return(target->poids + count_noeud(target->next));
+    return 0;
+}
+
 int arrete_add_front(t_arrete **front, t_arrete *target)
 {
     if(!front || !target)

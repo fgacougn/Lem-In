@@ -66,6 +66,7 @@ void way_print(t_way *target)
         i++;
     }
     t_arrete *temp;
+    ft_printf("//\n");
     temp = target->arretes;
     while(temp)
     {

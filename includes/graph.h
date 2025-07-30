@@ -68,6 +68,7 @@ t_arrete *arrete_cpy(t_arrete *tocpy);
 void next_arrete(t_graphe_noeud **from, t_graphe_noeud **before);
 int arrete_way_length(t_arrete *);
 int arrete_build_way(struct way *way_to_build, t_arrete *going_through);
+int count_noeud(t_arrete *target);
 
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);

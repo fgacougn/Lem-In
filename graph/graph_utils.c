@@ -257,6 +257,7 @@ int set_link_tabs(t_graphe_racine *racine)
     return SUCCESS;
 }
 
+
 int gracine_count_ways(t_graphe_racine *target)
 {
     int i = 0;
@@ -327,4 +328,37 @@ void gracine_count_ways_arretes(t_graphe_racine *target)
         }
     }
     ft_printf("%d plus et %d moins\n", nbp, nbm);
+
+int set_tab_way(t_way **way)
+{
+    int k, i = 0,size;
+    t_arrete *temp;
+
+    while (way[i])
+    {
+        temp = way[i]->arretes;
+        size = count_noeud(temp);
+        way[i]->the_way = malloc(sizeof(t_graphe_noeud *) * (size + 1));
+        if(!way[i]->the_way)
+            return(ERR_MALLOC);
+        k = 0;
+        while (temp)
+        {
+            if(temp->is_direct == TRUE)
+            {
+                way[i]->the_way[k] = temp->link;
+                k++;
+            }
+            else for( int j = 0; j < temp->linkedto->poids ; j++)
+            {
+                way[i]->the_way[k] = temp->linkedto->inside[j];
+                k++;
+            }
+            way[i]->the_way[k] = 0;
+            temp = temp->next;
+        }
+        i++;
+    }
+    return(SUCCESS);
+
 }
