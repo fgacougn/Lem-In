@@ -6,6 +6,7 @@ algo/ants_ways.c\
 algo/floodfill.c\
 algo/parcours_floodfill.c\
 algo/parcours_graphe.c\
+algo/parcours_edmonds_karps.c\
 algo/graph_simplify.c\
 graph/t_way.c\
 graph/t_arrete.c\

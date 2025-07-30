@@ -22,7 +22,7 @@ static char build_way_recursif_arrete(t_graphe_racine *terre, t_way * way,t_arre
         {
             ft_printf("%s min: %d poid: %d has a way: %d seen: %d \n",temp->link->name,min,temp->link->poids,temp->link->has_a_way,temp->link->seen);
             
-            if(min >= temp->link->poids && temp->link->has_a_way == FALSE && temp->link->seen == FALSE)
+            if(!temp->has_a_way &&  min >= temp->link->poids && temp->link->has_a_way == FALSE && temp->link->seen == FALSE)
             {
                 
                 min = temp->link->poids;
