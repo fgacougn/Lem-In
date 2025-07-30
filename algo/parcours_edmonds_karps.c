@@ -2,8 +2,12 @@
 
 static char is_possible_way(t_arrete *link, int seen_value, int min)
 {
+    // ft_printf("%s %d: start? %d//", link->link->name, link, link->link->is_peculiar != PECULIAR_START);
+    // ft_printf("seen %d,seen_value %d, %d//",link->link->seen,  seen_value, link->link->seen < seen_value);
+    // ft_printf("min %d, poids %d, %d//", min, link->link->poids, min >= link->link->poids);
+    // ft_printf("way %d true? %d\n",link->has_a_way , link->linkedto->has_a_way != WAY_TRUE);
     return 
-    link->link->is_peculiar != PECULIAR_START && link->link->seen < seen_value &&  min >= link->link->poids && link->link->seen < seen_value ;
+    link->link->is_peculiar != PECULIAR_START && link->link->seen < seen_value &&  min >= link->link->poids && link->has_a_way != WAY_TRUE;
 } ;
 
 static char build_way_recursif(t_graphe_racine *terre, t_way * way,t_arrete *arrete, int index, char going_back){
@@ -11,11 +15,11 @@ static char build_way_recursif(t_graphe_racine *terre, t_way * way,t_arrete *arr
     t_arrete *temp,*temp2 = 0;
     t_graphe_noeud *toreturn;
 
-    way_print(way);
-    ft_printf("\n");
+    // way_print(way);
+    // ft_printf("\n");
     temp = arrete;
     do{
-        ft_printf("ledo %d\n", index);
+        // ft_printf("ledo %d\n", index);
         if(is_back)
         {
             way_clearback(way);
@@ -26,21 +30,21 @@ static char build_way_recursif(t_graphe_racine *terre, t_way * way,t_arrete *arr
         is_back = 0;
         while (temp)
         {
-            ft_printf("%s min: %d poid: %d has a way: %d seen: %d , // %d\n",temp->link->name,min,temp->link->poids,temp->link->has_a_way,temp->link->seen, is_possible_way(temp,index, min));
+            // ft_printf("%s min: %d poid: %d has a way: %d seen: %d , // %d\n",temp->link->name,min,temp->link->poids,temp->link->has_a_way,temp->link->seen, is_possible_way(temp,index, min));
             
             if(is_possible_way(temp,index, min))
             {
-                if(temp->has_a_way)
+                if(temp->has_a_way == WAY_REVERSABLE)
                 {
-                    if(!going_back)
+                    nextBack = TRUE;
+                    if(going_back == nextBack )
                     {
-                        nextIndex = index + 1;
+                        // nextIndex = index + 1;
                     }
-                    going_back = TRUE;
                 }
                 else
                 {
-                    going_back = FALSE;
+                    nextBack = FALSE;
                     nextIndex = index;
                 }
                 min = temp->link->poids;
@@ -57,8 +61,8 @@ static char build_way_recursif(t_graphe_racine *terre, t_way * way,t_arrete *arr
             temp2->seen = nextIndex;
             if(way_addback(way, arrete_cpy(temp2))!= SUCCESS)
                     return ERR_MALLOC;
-            way_print(way);
-            ft_printf("\n");
+            // way_print(way);
+            // ft_printf("\n");
         }
         is_back = 1;
     }while (toreturn != terre->end && toreturn && build_way_recursif(terre,way, toreturn->arretes, nextIndex, nextBack) == FAILURE);
@@ -86,7 +90,7 @@ char parcours_edmonds_karps(t_graphe_racine *terre)
     do
     {
         i++;
-        ft_printf("ekretour vers avant %d\n", i);
+        // ft_printf("ekretour vers avant %d\n", i);
         new = way_new(terre->size);
         // new->the_way[0] = terre->start;
         if(way_addback(new, arrete_new(terre->start)) == FAILURE)
@@ -95,10 +99,12 @@ char parcours_edmonds_karps(t_graphe_racine *terre)
         if(build_way_recursif(terre,new, new->arretes->link->arretes, 1, 0) == SUCCESS)
         {
             terre->ek_ways[i] = new;
+            // gracine_count_ways_arretes(terre);
             set_way(new);
+            // gracine_count_ways_arretes(terre);
         }
         else
-            path_clear(new);
+            way_del(new);
         gracine_clean_seen(terre);
     }while (terre->ek_ways[i]);
     sort_ways(terre->ek_ways);

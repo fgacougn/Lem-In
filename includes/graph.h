@@ -17,9 +17,9 @@
 #define PECULIAR_NO 0
 #define PECULIAR_END 1
 #define PECULIAR_START 2
-#define WAY_TRUE 1
-#define WAY_FALSE 0
-#define WAY_REVERSABLE -1
+#define WAY_TRUE (int)1
+#define WAY_FALSE (int)0
+#define WAY_REVERSABLE (int)-1
 
 struct way;
 extern int id_noeud;
@@ -32,7 +32,7 @@ typedef struct arrete{
     int poids;
     struct graphe_noeud **inside;
     char is_direct;
-    char has_a_way;
+    int has_a_way;
     char seen;
     struct graphe_noeud *link;
 } t_arrete;
@@ -51,7 +51,7 @@ typedef struct graphe_noeud{
     int x;
     int y;
     char seen;
-    char has_a_way;
+    int has_a_way;
     struct way *first;
     int poids;
 } t_graphe_noeud;
@@ -66,6 +66,8 @@ int arrete_pop(t_arrete **front, t_arrete *);
 void print_arretes(t_arrete *);
 t_arrete *arrete_cpy(t_arrete *tocpy);
 void next_arrete(t_graphe_noeud **from, t_graphe_noeud **before);
+int arrete_way_length(t_arrete *);
+int arrete_build_way(struct way *way_to_build, t_arrete *going_through);
 
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
@@ -98,6 +100,8 @@ void gracine_clean_way(t_graphe_racine *);
 t_graphe_racine *parsing();
 int set_link_tabs(t_graphe_racine *);
 int draw_ways(t_graphe_racine *);
+int gracine_count_ways(t_graphe_racine *);
+void gracine_count_ways_arretes(t_graphe_racine *);
 
 
 typedef struct way{

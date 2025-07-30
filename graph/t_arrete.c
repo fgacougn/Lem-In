@@ -52,7 +52,7 @@ int arrete_new_large(t_graphe_noeud *from, t_graphe_noeud *from2, t_graphe_noeud
     t_arrete *arretef, *arretet;
     arretef = from->arretes;
     arretet = to->arretes;
-    while(arretef->link != from2)
+    while(arretef->link != from2 )
         arretef = arretef->next;
     while(arretet->link != to2)
         arretet = arretet->next;
@@ -63,7 +63,9 @@ int arrete_new_large(t_graphe_noeud *from, t_graphe_noeud *from2, t_graphe_noeud
     arretet->inside[poids - 1] = from;
     // ft_printf("%s/", from->name);
     arretef->link = to;
+    arretef->linkedto = arretet;
     arretet->link = from;
+    arretet->linkedto =arretef;
     for(int i = 0; i < poids ; i++)
     {
         // ft_printf("%s/", from2->name);
@@ -155,7 +157,7 @@ void print_arretes(t_arrete *target)
 {
     if(target)
     {
-        ft_printf("%s/", target->link->name);
+        ft_printf("%s+%d/", target->link->name, target->has_a_way,target->linkedto);
         print_arretes(target->next);
     }
 }
@@ -172,4 +174,74 @@ t_arrete *arrete_cpy(t_arrete *tocpy)
         new->linkedto = tocpy;
     }
     return new;
+}
+
+// int arrete_way_length(t_arrete *target)
+// {
+//     while(target)
+//     {
+//         // ft_printf("%s,%d->", target->link->name,target->has_a_way);
+//         if(target->has_a_way == WAY_REVERSABLE)
+//             return 1 + arrete_way_length(target->link->arretes);
+//         else return arrete_way_length(target->next);
+//     }
+//     return 0;
+// }
+
+int arrete_way_length(t_arrete *target)
+{
+    if(!target)
+        return 0;
+    int size = 1;
+    while(target)
+    {
+        // ft_printf("%s,%d?", target->link->name, target->has_a_way);
+        if(target->has_a_way==WAY_TRUE)
+        {
+            // ft_printf("%s %d//", target->link->name,size);
+            target = target->link->arretes;
+            size++;
+        }
+        else target = target->next;
+    }
+    return size;
+}
+
+
+// t_arrete * arrete_build_way(t_arrete **way_to_build, t_arrete *going_through)
+// {
+//     if(going_through && way_to_build)
+//     {
+//         if(going_through->has_a_way == WAY_REVERSABLE)
+//         {
+//             *way_to_build = arrete_cpy(going_through);
+//             if(!(*way_to_build))
+//                 return 0;
+//             return arrete_build_way(&((*way_to_build)->next), going_through->link->arretes);
+//         }
+//         else if(going_through->next)
+//             return arrete_build_way(way_to_build,  going_through->next);
+//     }
+//     return going_through;
+// }
+
+
+int arrete_build_way(t_way *way_to_build, t_arrete *going_through)
+{
+    if(!going_through || !way_to_build)
+        return FAILURE;
+    while(going_through)
+    {
+        // ft_printf("%s,%d?", going_through->link->name, going_through->has_a_way);
+        if(going_through->has_a_way==WAY_TRUE)
+        {
+            // ft_printf("%s//", going_through->link->name);
+            if(way_addback(way_to_build, arrete_cpy(going_through)) == FAILURE)
+                return (FAILURE);
+            going_through = going_through->link->arretes;
+        }
+        else
+            going_through = going_through->next;
+    }
+    return SUCCESS;
 }
