@@ -229,3 +229,36 @@ int set_link_tabs(t_graphe_racine *racine)
     }
     return SUCCESS;
 }
+
+int set_tab_way(t_way **way)
+{
+    int j,k, i = 0,size = 0;
+    t_arrete *temp;
+    
+    
+    while (way[i])
+    {
+        temp = way[i]->arretes;
+        j = 0;
+        ft_printf("\n here %s\n",temp->inside[j]->name);
+
+        size = count_noeud(temp);
+        way[i]->the_way = malloc(sizeof(t_graphe_noeud *) * (size + 1));
+        k = 0;
+        while (temp)
+        {
+            j = 0;
+            ft_printf("\n here %s\n",temp->inside[j]->name);
+            while (temp->inside[j])
+            {
+                way[i]->the_way[k] = temp->inside[j];
+                k++;
+                j++;
+            }
+            temp = temp->next;
+        }
+        way_print(way[i]);
+        i++;
+    }
+    return(SUCCESS);
+}

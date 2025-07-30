@@ -66,6 +66,7 @@ int arrete_pop(t_arrete **front, t_arrete *);
 void print_arretes(t_arrete *);
 t_arrete *arrete_cpy(t_arrete *tocpy);
 void next_arrete(t_graphe_noeud **from, t_graphe_noeud **before);
+int count_noeud(t_arrete *target);
 
 
 t_graphe_noeud * gnoeud_new(char *name, int x, int y);
