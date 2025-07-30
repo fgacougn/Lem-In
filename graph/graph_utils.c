@@ -152,6 +152,8 @@ void gracine_clear(t_graphe_racine *target)
         ways_del(target->start_ways, target->size /2 + 1);
     if(target->ek_ways)
         ways_del(target->ek_ways, target->size /2 + 1);
+    if(target->ek_ways)
+        ways_del(target->drawn_ways, target->size /2 + 1);
     free(target);
 }
 
@@ -176,18 +178,21 @@ void gracine_print(t_graphe_racine *target)
     int j;
     for (int i =0; i < target->size ; i++)
     {
-        ft_printf("Noeud %d: %s seen %d poids %d links", i, target->all[i]->name, target->all[i]->seen, target->all[i]->poids);
-        j = 0;
-        while(target->all[i]->links[j])
+        if(target->all[i]->poids != -1)
         {
-            ft_printf("%s/",target->all[i]->links[j]->name);
-            j++;
+            ft_printf("Noeud %d: %s seen %d way %d poids %d links", i, target->all[i]->name, target->all[i]->seen, target->all[i]->has_a_way, target->all[i]->poids);
+            j = 0;
+            while(target->all[i]->links[j])
+            {
+                ft_printf("%s/",target->all[i]->links[j]->name);
+                j++;
+            }
+            ft_printf("arretes?");
+            if(target->all[i]->arretes)
+                print_arretes(target->all[i]->arretes);
+            ft_printf("first %x", target->all[i]->first);
+            ft_printf("\n");
         }
-        ft_printf("arretes?");
-        if(target->all[i]->arretes)
-            print_arretes(target->all[i]->arretes);
-        ft_printf("first %x", target->all[i]->first);
-        ft_printf("\n");
     }
     int i;
     i = 0;
@@ -252,6 +257,78 @@ int set_link_tabs(t_graphe_racine *racine)
     return SUCCESS;
 }
 
+
+int gracine_count_ways(t_graphe_racine *target)
+{
+    int i = 0;
+    t_arrete *arretes = target->start->arretes;
+    while(arretes)
+    {
+        // ft_printf("direction %s, way %d\n", arretes->link->name, arretes->has_a_way);
+        if(arretes->has_a_way )
+            i++;
+        arretes = arretes->next;
+    }
+    return i;
+}
+
+int draw_ways(t_graphe_racine *target)
+{
+    t_arrete *arretes = target->start->arretes;
+    int i = 0, size = gracine_count_ways(target), way_size;
+    // ft_printf("nb ways:%d\n", size);
+
+    target->drawn_ways = malloc((size + 1) * sizeof(t_way *));
+    if(!target->drawn_ways)
+        return ERR_MALLOC;
+    ft_bzero(target->drawn_ways , (size + 1) * sizeof(t_way *));
+    while(arretes)
+    {
+        // ft_printf("direction %s, way %d\n", arretes->link->name, arretes->has_a_way);
+        if(arretes->has_a_way)
+        {
+            way_size = arrete_way_length(arretes);
+            target->drawn_ways[i] = way_new(way_size);
+            if(!target->drawn_ways[i])
+                return ERR_MALLOC;
+            if(way_addback(target->drawn_ways[i], arrete_new(target->start)) == FAILURE)
+                return (FAILURE);
+            arrete_build_way(target->drawn_ways[i], arretes);
+            // ft_printf("\nway %d : length %d//\n", i, way_size);
+            // way_print(target->drawn_ways[i]);
+            if(!target->drawn_ways[i]->last)
+                return ERR_MALLOC;
+            // ft_printf("\n");
+            i++;
+        }
+        arretes = arretes->next;
+        
+    }
+    return SUCCESS;
+}
+
+
+void gracine_count_ways_arretes(t_graphe_racine *target)
+{
+    int nbp = 0, nbm = 0;
+    t_arrete *arretes;
+    for(int i = 0; i < target->size ; i++)
+    {
+        if(target->all[i]->poids != -1)
+        {
+            arretes = target->all[i]->arretes;
+            while(arretes)
+            {
+                if(arretes->has_a_way > 0)
+                    nbp++;
+                if(arretes->has_a_way < 0)
+                    nbm++;
+                arretes = arretes->next;
+            }
+        }
+    }
+    ft_printf("%d plus et %d moins\n", nbp, nbm);
+
 int set_tab_way(t_way **way)
 {
     int k, i = 0,size;
@@ -283,4 +360,5 @@ int set_tab_way(t_way **way)
         i++;
     }
     return(SUCCESS);
+
 }

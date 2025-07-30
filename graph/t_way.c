@@ -34,7 +34,7 @@ void ways_del(t_way** todel, int size )
 {
     if(!todel)
         return;
-    for(int i = 0; i< size; i++)
+    for(int i = 0; i< size && todel[i]; i++)
         if(todel[i])
             way_del(todel[i]);
     free(todel);
@@ -123,26 +123,34 @@ void path_clear(t_way *target)
 
 void set_way(t_way *target)
 {
-    int i = 0;
-    while(target->the_way[i])
-    {
-        if(target->the_way[i]->is_peculiar != PECULIAR_END)
-        {
-            target->the_way[i]->has_a_way = WAY_TRUE;
-            target->the_way[i]->has_a_way = WAY_REVERSABLE;
-        }
-        i++;
-    }
+    // int i = 0;
+    // while(target->the_way[i])
+    // {
+    //     if(target->the_way[i]->is_peculiar != PECULIAR_END)
+    //         target->the_way[i]->has_a_way = WAY_TRUE;
+    //     i++;
+    // }
     t_arrete *temp = target->arretes;
     while(temp)
     {
-        //ft_printf("%d,",temp);
-        //ft_printf("%d,", temp->linkedto);
         // ft_printf("%d//",temp->linkedto->has_a_way);
         if(temp->linkedto)
-            temp->linkedto->has_a_way = WAY_TRUE;
+        {
+            // ft_printf("%d,%d,",temp->linkedto,temp->linkedto->has_a_way);
+            if(temp->linkedto->has_a_way != WAY_FALSE)
+            {
+                temp->linkedto->has_a_way = WAY_FALSE;
+                temp->linkedto->linkedto->has_a_way = WAY_FALSE;
+            }
+            else{
+                temp->linkedto->has_a_way = WAY_TRUE;
+                temp->linkedto->linkedto->has_a_way = WAY_REVERSABLE;
+            }
+            // ft_printf("%d,",temp->linkedto->has_a_way);
+        }
         if(temp->link->is_peculiar != PECULIAR_END)
             temp->link->has_a_way = TRUE;
+        // ft_printf("%s//", temp->link->name);
         temp = temp->next;
     }
 }
