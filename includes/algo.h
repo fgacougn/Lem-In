@@ -18,6 +18,7 @@ void floodfill(t_graphe_racine *);
 void floodfill_arretes(t_graphe_racine *);
 char parcours_floodfill(t_graphe_racine *);
 char parcours_floodfill_arrete(t_graphe_racine *terre);
+char parcours_edmonds_karps(t_graphe_racine *);
 void ants_ways(t_graphe_racine *);
 int graph_simplify(t_graphe_racine *);
 
