@@ -1,2 +1,5 @@
 *.o
 */*.o
+*.go
+a.out
+lem-in
