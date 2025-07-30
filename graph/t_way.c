@@ -170,7 +170,7 @@ void sort_ways(t_way **target)
 
 int way_addback(t_way *way, t_arrete *target)
 {
-    ft_printf("addback %s//", target->link->name);
+    // ft_printf("addback %s//", target->link->name);
     if(!way || !target)
         return FAILURE;
     if(!way->arretes)
@@ -184,7 +184,7 @@ int way_addback(t_way *way, t_arrete *target)
         target->before = way->last;
         way->last = target;
     }
-    ft_printf("addedback %s//", way->last->link->name);
+    // ft_printf("addedback %s//", way->last->link->name);
     return SUCCESS;
 }
 
