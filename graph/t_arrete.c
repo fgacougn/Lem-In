@@ -169,7 +169,7 @@ t_arrete *arrete_cpy(t_arrete *tocpy)
     {
         new->poids = tocpy->poids;
         new->is_direct = tocpy->is_direct;
-        new->inside = tocpy->inside;
+        new->linkedto = tocpy;
     }
     return new;
 }

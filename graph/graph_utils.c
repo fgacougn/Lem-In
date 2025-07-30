@@ -67,17 +67,19 @@ int gnoeud_add_arrete(t_graphe_noeud *first, t_graphe_noeud *second)
 {
     if(!first || !second || gnoeud_has_arrete(first, second) || gnoeud_has_arrete(second, first))
         return FAILURE;
-    t_arrete *new;
+    t_arrete *new, *new2;
     new = arrete_new(second);
     if(!new)
         return FAILURE;
     if(arrete_add_front(&(first->arretes), new) == FAILURE)
         return FAILURE;
-    new = arrete_new(first);
-    if(!new)
+    new2 = arrete_new(first);
+    if(!new2)
         return FAILURE;
-    if(arrete_add_front(&(second->arretes), new) == FAILURE)
+    if(arrete_add_front(&(second->arretes), new2) == FAILURE)
         return FAILURE;
+    new->linkedto = new2;
+    new2->linkedto = new;
     return SUCCESS;
 }
 

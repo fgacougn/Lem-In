@@ -17,6 +17,9 @@
 #define PECULIAR_NO 0
 #define PECULIAR_END 1
 #define PECULIAR_START 2
+#define WAY_TRUE 1
+#define WAY_FALSE 0
+#define WAY_REVERSABLE -1
 
 struct way;
 extern int id_noeud;
@@ -25,9 +28,12 @@ struct graphe_noeud;
 typedef struct arrete{
     struct arrete *next;
     struct arrete *before;
+    struct arrete *linkedto;
     int poids;
     struct graphe_noeud **inside;
     char is_direct;
+    char has_a_way;
+    char seen;
     struct graphe_noeud *link;
 } t_arrete;
 
@@ -78,6 +84,7 @@ typedef struct graphe_racine{
     t_graphe_noeud **all;
     t_graphe_noeud *end;
     struct way **start_ways;
+    struct way **drawn_ways;
 } t_graphe_racine;
 
 t_graphe_racine * gracine_new(void);
@@ -89,6 +96,7 @@ void gracine_clean_seen(t_graphe_racine *);
 void gracine_clean_way(t_graphe_racine *);
 t_graphe_racine *parsing();
 int set_link_tabs(t_graphe_racine *);
+int draw_ways(t_graphe_racine *);
 
 
 typedef struct way{
@@ -111,5 +119,6 @@ void sort_ways(t_way **);
 int way_addback(t_way *, t_arrete *);
 t_arrete *way_popback(t_way *);
 int way_clearback(t_way *);
+int set_tab_way(t_way **);
 
 #endif

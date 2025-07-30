@@ -132,6 +132,11 @@ void set_way(t_way *target)
     t_arrete *temp = target->arretes;
     while(temp)
     {
+        ft_printf("%d,",temp);
+        ft_printf("%d,", temp->linkedto);
+        // ft_printf("%d//",temp->linkedto->has_a_way);
+        if(temp->linkedto)
+            temp->linkedto->has_a_way = WAY_TRUE;
         if(temp->link->is_peculiar != PECULIAR_END)
             temp->link->has_a_way = TRUE;
         temp = temp->next;
