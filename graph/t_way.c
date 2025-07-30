@@ -66,6 +66,7 @@ void way_print(t_way *target)
         i++;
     }
     t_arrete *temp;
+    ft_printf("//\n");
     temp = target->arretes;
     while(temp)
     {
@@ -135,8 +136,8 @@ void set_way(t_way *target)
     t_arrete *temp = target->arretes;
     while(temp)
     {
-        ft_printf("%d,",temp);
-        ft_printf("%d,", temp->linkedto);
+        //ft_printf("%d,",temp);
+        //ft_printf("%d,", temp->linkedto);
         // ft_printf("%d//",temp->linkedto->has_a_way);
         if(temp->linkedto)
             temp->linkedto->has_a_way = WAY_TRUE;
