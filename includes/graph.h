@@ -85,6 +85,7 @@ typedef struct graphe_racine{
     t_graphe_noeud **all;
     t_graphe_noeud *end;
     struct way **start_ways;
+    struct way **ek_ways;
     struct way **drawn_ways;
 } t_graphe_racine;
 

@@ -126,7 +126,10 @@ void set_way(t_way *target)
     while(target->the_way[i])
     {
         if(target->the_way[i]->is_peculiar != PECULIAR_END)
-            target->the_way[i]->has_a_way = TRUE;
+        {
+            target->the_way[i]->has_a_way = WAY_TRUE;
+            target->the_way[i]->has_a_way = WAY_REVERSABLE;
+        }
         i++;
     }
     t_arrete *temp = target->arretes;

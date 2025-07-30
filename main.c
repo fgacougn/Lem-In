@@ -10,6 +10,9 @@ int main()
     floodfill_arretes(racine);
     // ft_printf("Fin floodfill\n");
     parcours_floodfill_arrete(racine);
+    gracine_clean_way(racine);
+    // parcours_edmonds_karps(racine);
+
     // if(parcours_floodfill_arrete(racine) == SUCCESS)
     //     ants_ways(racine);
     // else
@@ -17,6 +20,7 @@ int main()
     // ft_printf("marche %d\n", parcours_floodfill(racine));
     // ft_printf("marche %d\n", parcours_graphe(racine));
     // gracine_print(racine);
+
     // int i = 0;
     // while (racine->start_ways[i])
     // {

@@ -150,6 +150,8 @@ void gracine_clear(t_graphe_racine *target)
     gracine_del(target);
     if(target->start_ways)
         ways_del(target->start_ways, target->size /2 + 1);
+    if(target->ek_ways)
+        ways_del(target->ek_ways, target->size /2 + 1);
     free(target);
 }
 
@@ -200,18 +202,38 @@ void gracine_print(t_graphe_racine *target)
 
 void gracine_clean_seen(t_graphe_racine *target)
 {
+    t_arrete *arretes;
     for(int i = 0 ; i < target->size ; i++ )
     {
-        target->all[i]->seen = 0;
+        if(target->all[i]->poids != -1)
+        {
+            target->all[i]->seen = 0;
+            arretes = target->all[i]->arretes;
+            while(arretes)
+            {
+                arretes->seen = FALSE;
+                arretes = arretes->next;
+            }
+        }
     }
 }
 
 
 void gracine_clean_way(t_graphe_racine *target)
 {
+    t_arrete *arretes;
     for(int i = 0 ; i < target->size ; i++ )
     {
-        target->all[i]->has_a_way = 0;
+        if(target->all[i]->poids != -1)
+        {
+            target->all[i]->has_a_way = 0;
+            arretes = target->all[i]->arretes;
+            while(arretes)
+            {
+                arretes->has_a_way = FALSE;
+                arretes = arretes->next;
+            }
+        }
     }
 }
 
